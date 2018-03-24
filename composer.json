@@ -15,7 +15,7 @@
     	"silverstripe/framework": "^4.0"
     },
 	"extra": {
-        "installer-name": "retinacontentimages",
+        "installer-name": "retinacontentimages"
     },
 	"autoload": {
         "psr-4": {
