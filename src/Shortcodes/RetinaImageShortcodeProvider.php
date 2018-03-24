@@ -44,7 +44,7 @@ class RetinaImageShortcodeProvider extends ImageShortcodeProvider implements Sho
     {
 		
 		// Chris bolt, added to ensure this has a different cache key to the default parser
-		$args['retina'] = 1;
+		$args['data-retina'] = 1;
 		
 		$cache = static::getCache();
         $cacheKey = static::getCacheKey($args);
@@ -91,7 +91,7 @@ class RetinaImageShortcodeProvider extends ImageShortcodeProvider implements Sho
         }
 		
 		// Chris bolt, ensure that the retina arg is not added to html output
-		unset($args['retina']);
+		unset($args['data-retina']);
 
         // Build the HTML tag
         $attrs = array_merge(
