@@ -89,6 +89,9 @@ class RetinaImageShortcodeProvider extends ImageShortcodeProvider implements Sho
                 }
             }
         }
+		
+		// Chris bolt, ensure that the retina arg is not added to html output
+		unset($args['retina']);
 
         // Build the HTML tag
         $attrs = array_merge(
