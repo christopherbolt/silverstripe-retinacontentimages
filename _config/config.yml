@@ -1,0 +1,7 @@
+---
+Name: retinacontentimages
+---
+ChristopherBolt\RetinaContentImages\Shortcodes\RetinaImageShortcodeProvider:
+  srcset:
+    '1x': 1
+    '1.3x': 2

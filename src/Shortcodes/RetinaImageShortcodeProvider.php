@@ -11,6 +11,7 @@ use SilverStripe\View\HTML;
 use SilverStripe\Core\Flushable;
 use SilverStripe\View\Parsers\ShortcodeHandler;
 use SilverStripe\View\Parsers\ShortcodeParser;
+use SilverStripe\Core\Config\Config;
 
 /**
  * Class RetinaImageShortcodeProvider
@@ -77,15 +78,24 @@ class RetinaImageShortcodeProvider extends ImageShortcodeProvider implements Sho
             $height = isset($args['height']) ? $args['height'] : null;
             $hasCustomDimensions = ($width && $height);
             if ($hasCustomDimensions && (($width != $record->getWidth()) || ($height != $record->getHeight()))) {
-                $resized = $record->ResizedImage($width, $height);
-                // Make sure that the resized image actually returns an image
+ 				// Chris Bolt, new resize formula
+				$sizes = Config::inst()->get(self::class,'srcset');
+				if (isset($sizes['1x'])) {
+					$resized = $record->ResizedImage($width*$sizes['1x'], $height*$sizes['1x']);
+				} else {
+					$resized = $record->ResizedImage($width, $height);
+				}
                 if ($resized) {
                     $src = $resized->getURL();
-					// Chris bolt, generate srcset value
-					$retina = $record->ResizedImage($width*2, $height*2);
-					if ($retina) {
-						$srcset = $src.' 1x, '.$retina->getURL().' 1.3x';
+					$srcsetArr = array();
+					foreach($sizes as $attr => $magnifier) {
+						if ($magnifier==1) {
+							$srcsetArr[] = $src.' '.$attr;
+						} else if ($retina = $record->ResizedImage($width*$magnifier, $height*$magnifier)) {
+							$srcsetArr[] = $retina->getURL().' '.$attr;
+						}
 					}
+					$srcset = implode(', ', $srcsetArr);
                 }
             }
         }
