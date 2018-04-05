@@ -23,7 +23,7 @@ ChristopherBolt\RetinaContentImages\Shortcodes\RetinaImageShortcodeProvider:
   srcset:
     '1x': 1
     '2x': 2
-	'3x': 3
+    '3x': 3
 ```
 
 The key value is the argument that will appear in the srcset attribute. This can be a screen resolution multiplier or a screen width, refer to the srcset attribute documentation for more info. The value is a multiplier for how many times larger than the display width/height the image should be enlarged to. Usually this would be the same as your resolution multiplier but it does not have to be. You can add as many or as few srcset options as you like. If your list includes a '1x' option then this will be the image used in the src attribute. Otherwise an image the size of the display width/height will be used as per the normal SilverStripe behaviour.
