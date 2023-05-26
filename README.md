@@ -3,7 +3,7 @@ This simple module adds a srcset attribute to all images added in the HTML Edito
 Just install, run /dev/build/ and your images will now look sharp and awesome.
 
 ## Requirements ##
-SS 4.x
+SS 4.x or SS 5.x
 
 ### Installation ###
 ```
