@@ -9,6 +9,8 @@ use SilverStripe\Core\Flushable;
 use SilverStripe\Core\Injector\Injector;
 use SilverStripe\View\Parsers\ShortcodeHandler;
 use SilverStripe\View\Parsers\ShortcodeParser;
+use SilverStripe\Assets\Shortcodes\ImageShortcodeProvider;
+use SilverStripe\Core\Config\Config;
 
 /**
  * Class RetinaImageShortcodeProvider
@@ -81,7 +83,7 @@ class RetinaImageShortcodeProvider extends ImageShortcodeProvider implements Sho
             $hasCustomDimensions = ($width && $height);
             if ($hasCustomDimensions && (($width != $record->getWidth()) || ($height != $record->getHeight()))) {
                 // Chris Bolt, new resize formula
-                $sizes = Config::inst()->get(self::class,'srcset');
+                $sizes = static::config()->get('srcset');
 				if (isset($sizes['1x'])) {
 					$resized = $manipulatedRecord->ResizedImage($width*$sizes['1x'], $height*$sizes['1x']);
 				} else {
@@ -144,6 +146,8 @@ class RetinaImageShortcodeProvider extends ImageShortcodeProvider implements Sho
 
         // Clean out any empty attributes (aside from alt) and anything not whitelisted
         $whitelist = static::config()->get('attribute_whitelist');
+        // Chris Bolt, add srcset to whitelist
+        $whitelist[] = 'srcset';
         foreach ($attrs as $key => $value) {
             if (in_array($key, $whitelist) && (strlen(trim($value ?? '')) || in_array($key, ['alt', 'width', 'height']))) {
                 $manipulatedRecord = $manipulatedRecord->setAttribute($key, html_entity_decode($value));
